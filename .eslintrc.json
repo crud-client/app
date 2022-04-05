@@ -1,0 +1,67 @@
+{
+    "globals": {
+        "mount": true,
+        "shallow": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "standard",
+        "plugin:react/jsx-runtime",
+        "plugin:testing-library/react",
+        "plugin:jest/all"
+    ],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "jest": true,
+        "node": true,
+        "es2021": true
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "rules": {
+        "no-console": "off",
+        "jest/require-hook": "off",
+        "no-underscore-dangle": "off",
+        "react/prop-types": 0,
+        "no-use-before-define": [
+            "error",
+            {
+                "variables": false
+            }
+        ],
+        "react/jsx-filename-extension": [
+            "warn",
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "react/jsx-uses-vars": "error",
+        "react/jsx-uses-react": "error",
+        "max-len": [
+            "warn",
+            {
+                "code": 80,
+                "tabWidth": 2,
+                "comments": 80,
+                "ignoreComments": false,
+                "ignoreTrailingComments": true,
+                "ignoreUrls": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+                "ignoreRegExpLiterals": true
+            }
+        ]
+    }
+}

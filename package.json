@@ -1,0 +1,79 @@
+{
+  "name": "custom-mailing",
+  "version": "0.1.1",
+  "private": true,
+  "proxy": "http://localhost:8080",
+  "homepage": "CrudClients",
+  "dependencies": {
+    "@chakra-ui/icons": "^1.1.7",
+    "@chakra-ui/react": "^1.7.3",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.24.0",
+    "child_process": "^1.0.2",
+    "framer-motion": "^4.1.17",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dnd": "^14.0.4",
+    "react-dnd-html5-backend": "^14.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-nestable": "^2.0.0",
+    "react-scripts": "5.0.0",
+    "serve": "^13.0.2",
+    "styled-components": "^5.3.3",
+    "web-vitals": "^2.1.2"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-react": "^7.16.7",
+    "eslint": "^8.11.0",
+    "eslint-config-react-app": "6.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-jsx": "^0.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-testing-library": "^5.1.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.3.5",
+    "msw": "^0.39.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "rtest": "DEBUG_PRINT_LIMIT=5000000 NODE_ENV=TEST react-scripts test",
+    "jtest": "NODE_ENV=TEST NODE_OPTIONS=--experimental-vm-modules jest --env=jsdom __tests__ --no-cache --watchAll",
+    "eject": "react-scripts eject",
+    "server": "serve -s build",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "npx eslint src/**/*.{js,jsx} --fix"
+    ],
+    "src/*.{js,jsx}": [
+      "npx eslint src/*.{js,jsx} --fix"
+    ],
+    "*.js": "eslint --cache --fix"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
