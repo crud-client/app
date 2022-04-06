@@ -7,8 +7,12 @@ import {
   Button,
   IconButton,
   HStack,
-  Heading
+  Heading,
+  Link
 } from '@chakra-ui/react'
+
+import { Link as ReactLink } from 'react-router-dom'
+
 import { useEffect, useState } from 'react'
 import { FaPlusCircle } from 'react-icons/fa'
 import List from './List'
@@ -60,26 +64,33 @@ export default function App () {
           <ToggleButton />
         </HStack>
         <HStack width="100%" justifyContent="space-between" alignItems="center">
-          <Input width="100%" placeholder="Search" size="lg" onChange={inputHandler} />
-          <IconButton
-            colorScheme='teal'
-            aria-label='Call Sage'
-            fontSize='20px'
-            icon={<FaPlusCircle />}
-            onClick={async () => {
-              const result = await createData(
-                'Client',
-                client,
-                toast,
-                'Clients',
-                `"${client.name}" was successfully created".`
-              )
-              setClients(result)
-              console.log(clients)
-            }}
+          <Input
+            width="100%"
+            placeholder="Search"
+            size="lg"
+            onChange={inputHandler}
           />
+          <Link as={ReactLink} to="/create" state={{ client: null }}>
+            <IconButton
+              colorScheme="teal"
+              aria-label="Call Sage"
+              fontSize="20px"
+              icon={<FaPlusCircle />}
+              onClick={async () => {
+                const result = await createData(
+                  'Client',
+                  client,
+                  toast,
+                  'Clients',
+                  `"${client.name}" was successfully created".`
+                )
+                setClients(result)
+                console.log(clients)
+              }}
+            />
+          </Link>
         </HStack>
-        <List input={inputText}/>
+        <List input={inputText} />
       </Stack>
     </Flex>
   )

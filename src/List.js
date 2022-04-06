@@ -5,11 +5,18 @@ import {
   Button,
   Center,
   Collapse,
-  Stack,
   Box,
   IconButton,
   useDisclosure,
-  HStack
+  HStack,
+  Stack,
+  LightMode,
+  Table,
+  Tbody,
+  Tr,
+  Td,
+  TableContainer,
+  Link
 } from '@chakra-ui/react'
 import {
   FaEdit,
@@ -19,7 +26,7 @@ import {
   FaInstagram,
   FaTwitter
 } from 'react-icons/fa'
-
+import { Link as ReactLink } from 'react-router-dom'
 import data from './ListData.json'
 import { useState } from 'react'
 
@@ -30,6 +37,7 @@ export default function List ({ input }) {
     const [span, setSpan] = useState(1)
     const [text, setText] = useState('Expand Info')
     const [hovering, setHovering] = useState(false)
+    const [buttonsMargin, setButtonsMargin] = useState(299)
 
     collapses.set(data[i].id, {
       collapse: {
@@ -47,6 +55,10 @@ export default function List ({ input }) {
       hovering: {
         value: hovering,
         setValue: setHovering
+      },
+      btnMargin: {
+        value: buttonsMargin,
+        setValue: setButtonsMargin
       }
     })
   }
@@ -76,6 +88,10 @@ export default function List ({ input }) {
         ? 'Collapse Info'
         : 'Expand Info'
     collapses.get(id).text.setValue(toggledText)
+
+    const toggledButtonMargin =
+      collapses.get(id).btnMargin.value === 299 ? 1014 : 299
+    collapses.get(id).btnMargin.setValue(toggledButtonMargin)
   }
 
   return (
@@ -95,99 +111,127 @@ export default function List ({ input }) {
           shadow="md"
           bg="blue.500"
         >
-          <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+          <Grid templateColumns="repeat(4, 1fr)">
             {collapses.get(item.id).hovering.value && (
               <GridItem colStart="4" position="absolute">
-                <Stack>
-                  <IconButton
-                    colorScheme="red"
-                    aria-label="Call Sage"
-                    fontSize="20px"
-                    icon={<FaTrash />}
-                  />
-                  <IconButton
-                    colorScheme="gray"
-                    aria-label="Call Sage"
-                    fontSize="20px"
-                    icon={<FaEdit />}
-                  />
-                </Stack>
+                <LightMode>
+                  <Stack ml={collapses.get(item.id).btnMargin.value} mt={1}>
+                    <IconButton
+                      colorScheme="red"
+                      aria-label="Call Sage"
+                      fontSize="20px"
+                      size="sm"
+                      icon={<FaTrash />}
+                    />
+                    <Link as={ReactLink} to="/edit" state={{ client: item }}>
+                      <IconButton
+                        colorScheme="orange"
+                        aria-label="Call Sage"
+                        fontSize="20px"
+                        size="sm"
+                        icon={<FaEdit />}
+                      />
+                    </Link>
+                  </Stack>
+                </LightMode>
               </GridItem>
             )}
-
             <GridItem colSpan="4">
               <Center>
-                <Text fontSize="4xl">{item.text}</Text>
+                <Text color="white" fontSize={'3xl'} height="60px" mt="5">
+                  {item.name}
+                </Text>
               </Center>
             </GridItem>
-
             <GridItem colSpan="2">
               <Center>
-                <Text>CPF: {item.cpf}</Text>
+                <Text color="white">
+                  <b>CPF:</b> {item.cpf}
+                </Text>
               </Center>
             </GridItem>
-
             <GridItem colSpan="2">
               <Center>
-                <Text>RG: {item.rg}</Text>
+                <Text color="white">
+                  <b>RG:</b> {item.rg}
+                </Text>
               </Center>
             </GridItem>
-
-            <GridItem>
-              <Center>
-                <IconButton
-                  aria-label="Call Sage"
-                  fontSize="20px"
-                  icon={<FaFacebook />}
-                />
-              </Center>
-            </GridItem>
-
-            <GridItem>
-              <Center>
-                <IconButton
-                  aria-label="Call Sage"
-                  fontSize="20px"
-                  icon={<FaLinkedin />}
-                />
-              </Center>
-            </GridItem>
-
-            <GridItem>
-              <Center>
-                <IconButton
-                  aria-label="Call Sage"
-                  fontSize="20px"
-                  icon={<FaInstagram />}
-                />
-              </Center>
-            </GridItem>
-
-            <GridItem>
-              <Center>
-                <IconButton
-                  aria-label="Call Sage"
-                  fontSize="20px"
-                  icon={<FaTwitter />}
-                />
-              </Center>
-            </GridItem>
-
-            <GridItem colSpan="4" rowSpan="2">
-              <Center>
-                <Button
-                  width="100%"
-                  mb="-14"
-                  onClick={() => {
-                    showText(item.id)
-                  }}
-                >
-                  {collapses.get(item.id).text.value}
-                </Button>
-              </Center>
-            </GridItem>
-
-            <GridItem colSpan="4" rowSpan="0">
+            {item.facebook && (
+              <GridItem>
+                <Center>
+                  <LightMode>
+                    <Link href={item.facebook} isExternal>
+                      <IconButton
+                        aria-label="Call Sage"
+                        fontSize="20px"
+                        colorScheme="blue"
+                        icon={<FaFacebook />}
+                      />
+                    </Link>
+                  </LightMode>
+                </Center>
+              </GridItem>
+            )}{' '}
+            {item.linkedin && (
+              <GridItem>
+                <Center>
+                  <LightMode>
+                    <Link href={item.linkedin} isExternal>
+                      <IconButton
+                        aria-label="Call Sage"
+                        fontSize="20px"
+                        colorScheme="blue"
+                        icon={<FaLinkedin />}
+                      />
+                    </Link>
+                  </LightMode>
+                </Center>
+              </GridItem>
+            )}{' '}
+            {item.instagram && (
+              <GridItem>
+                <Center>
+                  <LightMode>
+                    <Link href={item.instagram} isExternal>
+                      <IconButton
+                        aria-label="Call Sage"
+                        fontSize="20px"
+                        colorScheme="blue"
+                        icon={<FaInstagram />}
+                      />
+                    </Link>
+                  </LightMode>
+                </Center>
+              </GridItem>
+            )}
+            {item.twitter && (
+              <GridItem>
+                <Center>
+                  <LightMode>
+                    <Link href={item.twitter} isExternal>
+                      <IconButton
+                        aria-label="Call Sage"
+                        fontSize="20px"
+                        colorScheme="blue"
+                        icon={<FaTwitter />}
+                      />
+                    </Link>
+                  </LightMode>
+                </Center>
+              </GridItem>
+            )}
+            {!(
+              item.facebook ||
+              item.linkedin ||
+              item.instagram ||
+              item.twitter
+            ) && (
+              <GridItem colSpan="4">
+                <Box h="40px"></Box>
+              </GridItem>
+            )}
+            <GridItem colSpan="4">
               <Collapse
                 in={collapses.get(item.id).collapse.isOpen}
                 animateOpacity
@@ -195,79 +239,161 @@ export default function List ({ input }) {
               >
                 <HStack
                   width="100%"
+                  height="100%"
                   justifyContent="space-between"
-                  alignItems="center"
+                  alignItems="top"
+                  bg="blue.700"
                 >
                   <Box
                     width="100%"
-                    p="40px"
+                    p="20px"
+                    px="70px"
                     color="white"
-                    mt="0"
-                    bg="teal.500"
-                    rounded="md"
-                    shadow="md"
+                    alignItems="top"
                   >
-                    <Text fontSize="2xl">Addresses:</Text>
+                    <Text pb={1} fontSize="2xl" mt={-3}>
+                      Addresses:
+                    </Text>
+                    <hr />
                     <Grid
                       key={`grid-addresses-${item.id}`}
-                      templateColumns="repeat(4, 1fr)"
-                      gap={2}
+                      templateColumns="repeat(1, 1fr)"
+                      gap={8}
+                      pt={5}
                     >
                       {item.addresses.map((address) => (
                         <GridItem key={`grid-item-address-${address.id}`}>
-                          <>
-                            <Text key={`cep-${address.id}`}>
-                              CEP: {address.cep}
-                            </Text>
-                            <Text key={`state-${address.id}`}>
-                              State: {address.state}
-                            </Text>
-                            <Text key={`city-${address.id}`}>
-                              City: {address.city}
-                            </Text>
-                            <Text key={`neighborhood-${address.id}`}>
-                              Neighborhood: {address.neighborhood}
-                            </Text>
-                            <Text key={`complement-${address.id}`}>
-                              Complement: {address.complement}
-                            </Text>
-                          </>
+                          <TableContainer
+                            rounded="md"
+                            shadow="md"
+                            bg="#B9FAF8"
+                            color="gray.800"
+                          >
+                          <LightMode>
+                            <Stack ml={360} mt={1} position="absolute">
+                          <IconButton
+                            colorScheme="red"
+                            aria-label="Call Sage"
+                            fontSize="15px"
+                            size="xs"
+                            icon={<FaTrash />}
+                          />
+                          <Link as={ReactLink} to="/edit" state={{ client: item }}>
+                            <IconButton
+                              colorScheme="orange"
+                              aria-label="Call Sage"
+                              fontSize="15px"
+                              size="xs"
+                              icon={<FaEdit />}
+                            />
+                          </Link>
+                        </Stack>
+                      </LightMode>
+                            <Table size="sm" variant="unstyled">
+                              <Tbody>
+                                <Tr>
+                                  <Td>
+                                    <b>CEP</b>
+                                  </Td>
+                                  <Td>{address.cep}</Td>
+                                </Tr>
+                                <Tr>
+                                  <Td>
+                                    <b>State</b>
+                                  </Td>
+                                  <Td>{address.state}</Td>
+                                </Tr>
+                                <Tr>
+                                  <Td>
+                                    <b>City</b>
+                                  </Td>
+                                  <Td>{address.city}</Td>
+                                </Tr>
+                                <Tr>
+                                  <Td>
+                                    <b>Neighborhood</b>
+                                  </Td>
+                                  <Td>{address.neighborhood}</Td>
+                                </Tr>
+                                <Tr>
+                                  <Td>
+                                    <b>Complement</b>
+                                  </Td>
+                                  <Td>{address.complement}</Td>
+                                </Tr>
+                              </Tbody>
+                            </Table>
+                          </TableContainer>
                         </GridItem>
                       ))}
                     </Grid>
                   </Box>
-                  <Box
-                    width="100%"
-                    p="40px"
-                    color="white"
-                    mt="-1"
-                    bg="teal.500"
-                    rounded="md"
-                    shadow="md"
-                  >
-                    <Text fontSize="2xl">Telphones:</Text>
+                  <Box width="100%" p="20px" pr="70px" color="white">
+                    <Text pb={1} fontSize="2xl" mt={-3}>
+                      Telphones:
+                    </Text>
+                    <hr />
                     <Grid
+                      pt={5}
                       key={`grid-telphones-${item.id}`}
-                      templateColumns="repeat(3, 1fr)"
-                      gap={1}
+                      templateColumns="repeat(2, 1fr)"
+                      gap={8}
                     >
                       {item.telphones.map((telphone) => (
                         <GridItem key={`grid-item-telphone-${telphone.id}`}>
-                          <>
-                            <Text key={`number-${telphone.id}`}>
-                              Number: {telphone.number}
-                            </Text>
-                            <Text key={`type-${telphone.id}`}>
-                              Type: {telphone.type}
-                            </Text>
-                          </>
+                          <TableContainer
+                            rounded="md"
+                            shadow="md"
+                            bg="#B9FAF8"
+                            color="gray.800"
+                          >
+                            <Table size="sm" variant="unstyled">
+                              <Tbody>
+                                <Tr>
+                                  <Td>
+                                    <b>Number</b>
+                                  </Td>
+                                  <Td>{telphone.number}</Td>
+                                </Tr>
+                                <Tr>
+                                  <Td>
+                                    <b>Type</b>
+                                  </Td>
+                                  <Td>{telphone.type}</Td>
+                                </Tr>
+                              </Tbody>
+                            </Table>
+                          </TableContainer>
                         </GridItem>
                       ))}
                     </Grid>
                   </Box>
                 </HStack>
-                <hr />
               </Collapse>
+            </GridItem>
+            <GridItem colSpan="4" rowSpan="2">
+              <Center>
+                <Button
+                  width="100%"
+                  // mb="-14"
+                  color="gray.800"
+                  bg="gray.200"
+                  onClick={() => {
+                    showText(item.id)
+                  }}
+                  _hover={{ bg: 'gray.200' }}
+                  _active={{
+                    bg: 'gray.200',
+                    transform: 'scale(0.99)',
+                    borderColor: 'gray.300'
+                  }}
+                  _focus={{
+                    boxShadow: '0 0 0 0 pink.300'
+                  }}
+                >
+                  {collapses.get(item.id).text.value}
+                </Button>
+              </Center>
             </GridItem>
           </Grid>
         </GridItem>
