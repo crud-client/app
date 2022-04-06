@@ -24,7 +24,7 @@ const createData = async (request, body, toast, title, description) => {
         duration: 2500,
         isClosable: true
       })
-      return res.data.data
+      return res.data
     })
     .catch((err) => {
       console.log(err)

@@ -5,34 +5,20 @@ import {
   useToast,
   Stack,
   Button,
-  IconButton,
   HStack,
-  Heading,
-  Link
+  Heading
 } from '@chakra-ui/react'
 
-import { Link as ReactLink } from 'react-router-dom'
-
 import { useEffect, useState } from 'react'
-import { FaPlusCircle } from 'react-icons/fa'
+
+import LinkRouteCreate from './atoms/LinkRouteCreate'
+
 import List from './List'
 import getList from './api/getList'
-import createData from './api/createData'
-
-const client = {
-  name: 'Client',
-  dateOfBirth: '21/01/2010',
-  rg: '2626166',
-  cpf: '098768912',
-  facebook: 'fb.com/client',
-  linkedin: 'linkedin.com/in/client',
-  twitter: 'twitter.com/client',
-  instagram: 'instagram.com/client'
-}
 
 export default function App () {
   const toast = useToast()
-  const [clients, setClients] = useState([])
+  const [, setClients] = useState([])
   const [inputText, setInputText] = useState('')
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase()
@@ -59,36 +45,18 @@ export default function App () {
   return (
     <Flex justifyContent={'center'}>
       <Stack mt={50} width={'1080px'} padding={'15px'} spacing="25px">
-        <HStack width="100%" justifyContent="space-between" alignItems="top">
+        <HStack w="full" justifyContent="space-between" alignItems="top">
           <Heading>Get Clients</Heading>
           <ToggleButton />
         </HStack>
-        <HStack width="100%" justifyContent="space-between" alignItems="center">
+        <HStack w="full" justifyContent="space-between" alignItems="center">
           <Input
-            width="100%"
+            w="full"
             placeholder="Search"
             size="lg"
             onChange={inputHandler}
           />
-          <Link as={ReactLink} to="/create" state={{ client: null }}>
-            <IconButton
-              colorScheme="teal"
-              aria-label="Call Sage"
-              fontSize="20px"
-              icon={<FaPlusCircle />}
-              onClick={async () => {
-                const result = await createData(
-                  'Client',
-                  client,
-                  toast,
-                  'Clients',
-                  `"${client.name}" was successfully created".`
-                )
-                setClients(result)
-                console.log(clients)
-              }}
-            />
-          </Link>
+          <LinkRouteCreate model="client" data={{ client: null }} />
         </HStack>
         <List input={inputText} />
       </Stack>

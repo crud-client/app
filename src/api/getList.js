@@ -20,7 +20,7 @@ const getList = async (request, title, toast) => {
         duration: 2500,
         isClosable: true
       })
-      return res.data.data
+      return res.data
     })
     .catch((err) => {
       console.log(err)

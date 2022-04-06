@@ -6,20 +6,11 @@
     "rg": 65432,
     "linkedin": "linkedin.com/in/client1",
     "facebook": "fb.com/client1",
+    "dateofbirth": "2015-01-01",
     "telphones": [
       { "id": 1, "number": "1234567", "type": "residential", "client_id": 1 }
     ],
-    "addresses": [
-      {
-        "id": 1,
-        "cep": 1234565,
-        "state": "DF",
-        "city": "Brasilia",
-        "neighborhood": "Guará",
-        "complement": "Casa 1",
-        "client_id": 1
-      }
-    ]
+    "addresses": []
   },
   {
     "id": 2,
@@ -30,9 +21,7 @@
     "facebook": "fb.com/client2",
     "instagram": null,
     "twitter": "twitter.com/client2",
-    "telphones": [
-      { "id": 2, "number": "1234567", "type": "residential", "client_id": 2 }
-    ],
+    "telphones": [],
     "addresses": [
         {
           "id": 2,

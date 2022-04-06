@@ -17,8 +17,12 @@ ReactDOM.render(
       <BrowserRouter>
       <Routes>
       <Route path="/" element={<App />} />
-      <Route path="create" element={<Test title="Create new client" isEdit={false} />} />
-      <Route path="edit" element={<Test title="Edit client" isEdit={true}/>} />
+      <Route path="create_client" element={<Test title="Create new client" isEdit={false} model='client'/>} />
+      <Route path="edit_client" element={<Test title="Edit client" isEdit={true} model='client' />} />
+      <Route path="create_address" element={<Test title="Create new address" isEdit={false} model='address'/>} />
+      <Route path="edit_address" element={<Test title="Edit address" isEdit={true} model='address' />} />
+      <Route path="create_telphone" element={<Test title="Create new telphone" isEdit={false} model='telphone'/>} />
+      <Route path="edit_telphone" element={<Test title="Edit telphone" isEdit={true} model='telphone' />} />
     </Routes>
       </BrowserRouter>
     </ChakraProvider>

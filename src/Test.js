@@ -12,10 +12,33 @@ import {
 
 import { useLocation, Link as ReactLink } from 'react-router-dom'
 
-export default function UserProfileEdit ({ title, isEdit }) {
+export default function UserProfileEdit ({ model, title, isEdit }) {
   const location = useLocation()
-  const { client } = location.state
-  console.log(client)
+  const { [model]: value } = location.state
+  const fields = {
+    telphone: [
+      { col: 'Number', required: true, type: 'number' },
+      { col: 'Type', required: true, type: 'text' }
+    ],
+    address: [
+      { col: 'CEP', required: true, type: 'text' },
+      { col: 'State', required: true, type: 'text' },
+      { col: 'City', required: true, type: 'text' },
+      { col: 'Neighborhood', required: true, type: 'text' },
+      { col: 'Complement', required: true, type: 'text' }
+    ],
+    client: [
+      { col: 'Name', required: true, type: 'text' },
+      { col: 'RG', required: true, type: 'number' },
+      { col: 'CPF', required: true, type: 'number' },
+      { col: 'DateOfBirth', required: true, type: 'date' },
+      { col: 'Linkedin', required: false, type: 'text' },
+      { col: 'Facebook', required: false, type: 'text' },
+      { col: 'Twitter', required: false, type: 'text' },
+      { col: 'Instagram', required: false, type: 'text' }
+    ]
+  }
+
   return (
     <Flex
       minH={'100vh'}
@@ -36,70 +59,18 @@ export default function UserProfileEdit ({ title, isEdit }) {
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
           {title}
         </Heading>
+        {fields[model].map((field) => (
+          <FormControl key={`${title}-form-control-${field.col}`} isRequired={field.required} >
+            <FormLabel>{field.col}</FormLabel>
+            <Input
+              defaultValue={isEdit ? value[field.col.toLowerCase()] : null}
+              placeholder={field.col}
+              _placeholder={{ color: 'gray.500' }}
+              type={field.type}
+            />
+          </FormControl>
+        ))}
 
-        <FormControl id="userName" isRequired>
-          <FormLabel>Name</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.name : null }
-            placeholder="Name"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="RG" isRequired>
-          <FormLabel>RG</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.cpf : null }
-            placeholder="RG (apenas números)"
-            _placeholder={{ color: 'gray.500' }}
-            type="number"
-          />
-        </FormControl>
-        <FormControl id="CPF" isRequired>
-          <FormLabel>CPF</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.rg : null }
-            placeholder="CPF (apenas números)"
-            _placeholder={{ color: 'gray.500' }}
-            type="number"
-          />
-        </FormControl>
-        <FormControl id="linkedin">
-          <FormLabel>Linkedin</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.linkedin : null }
-            placeholder="LinkedIn"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="facebook">
-          <FormLabel>Facebook</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.facebook : null }
-            placeholder="Facebook"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="twitter">
-          <FormLabel>Twitter</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.twitter : null }
-            placeholder="Twitter"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="instagram">
-          <FormLabel>Instagram</FormLabel>
-          <Input
-            defaultValue={isEdit ? client.instagram : null }
-            placeholder="Instagram"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
           <Link
             as={ReactLink}
