@@ -9,21 +9,23 @@ import {
   useDisclosure,
   Button,
   IconButton,
-  LightMode
+  LightMode,
+  useToast
 } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
-// import deleteData from '../api/deleteData'
+import deleteData from '../api/deleteData'
 
 export default function DeleteDataButton ({
-  setValue,
   title,
-  toast,
   size,
   data,
   fontSize
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const prefix = data.client_id ? `${data.client_id}/` : ''
+  const toast = useToast()
+
+  const prefix = data?.clientID ? `${data.clientID}/` : ''
+
   return (
     <>
       <IconButton
@@ -51,14 +53,13 @@ export default function DeleteDataButton ({
                 colorScheme="red"
                 mr={3}
                 onClick={async () => {
-                  console.log(`${prefix}${title}/${data.id}`)
-                  // const result = await deleteData(
-                  //   `${model}/${data.id}`,
-                  //   toast,
-                  //   `${model}s`,
-                  //   'Item was successfully deleted".'
-                  // )
-                  // setValue(result)
+                  await deleteData(
+                    `${prefix}${title}/${data.id}`,
+                    toast,
+                    `${title}s`,
+                    'Item was successfully deleted".'
+                  )
+                  window.location.reload()
                 }}
               >
                 Delete

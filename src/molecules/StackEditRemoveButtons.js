@@ -6,7 +6,6 @@ import DeleteDataButton from '../atoms/DeleteDataButton.js'
 export default function StackEditRemoveButtons ({
   ml,
   size = 'sm',
-  setValue,
   title,
   toast,
   data
@@ -22,7 +21,6 @@ export default function StackEditRemoveButtons ({
           title={title}
           data={data}
           toast={toast}
-          setValue={setValue}
           fontSize={fontSize}
         />
         <LinkRouteEdit

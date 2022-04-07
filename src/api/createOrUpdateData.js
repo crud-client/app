@@ -8,16 +8,28 @@ const config = {
   }
 }
 
-const createData = async (request, body, toast, title, description) => {
-  return axios
-    .post(`${baseUrl}/${request}`, body, config)
+const createData = async (
+  request,
+  body,
+  toast,
+  title,
+  description,
+  put = true
+) => {
+  const confirmation = put ? 'updated' : 'created'
+  return axios({
+    method: put ? 'put' : 'post',
+    url: `${baseUrl}/${request}`,
+    data: body,
+    config
+  })
     .then((res) => {
       toast({
         render: ({ id, onClose }) =>
           RenderToast({
             id,
             onClose,
-            title: `${title} created.`,
+            title: `${title} ${confirmation}.`,
             description,
             status: 'success'
           }),
@@ -33,7 +45,7 @@ const createData = async (request, body, toast, title, description) => {
           RenderToast({
             id,
             onClose,
-            title: `${title} not created.`,
+            title: `${title} not ${confirmation}.`,
             description: `${err.response.status} Status code.`,
             status: 'error'
           }),

@@ -7,13 +7,19 @@ import {
   Input,
   Stack,
   Link,
+  useToast,
   useColorModeValue
 } from '@chakra-ui/react'
 
 import { useLocation, Link as ReactLink } from 'react-router-dom'
+import { useState } from 'react'
+
+import createOrUpdateData from './api/createOrUpdateData'
 
 export default function UserProfileEdit ({ model, title, isEdit }) {
+  const toast = useToast()
   const location = useLocation()
+
   const { [model]: value } = location.state
   const fields = {
     telphone: [
@@ -38,6 +44,19 @@ export default function UserProfileEdit ({ model, title, isEdit }) {
       { col: 'Instagram', required: false, type: 'text' }
     ]
   }
+  const states = {}
+  for (let i = 0; i < fields[model].length; i++) {
+    states[fields[model][i].col] = useState(
+      isEdit
+        ? value[fields[model][i].col.toLowerCase()]
+        : fields[model][i].type === 'number'
+          ? 0
+          : ''
+    )
+  }
+
+  const prefix = value?.clientID ? `${value.clientID}/` : ''
+  const suffix = value?.id ? `/${value.id}` : ''
 
   return (
     <Flex
@@ -60,13 +79,19 @@ export default function UserProfileEdit ({ model, title, isEdit }) {
           {title}
         </Heading>
         {fields[model].map((field) => (
-          <FormControl key={`${title}-form-control-${field.col}`} isRequired={field.required} >
+          <FormControl
+            key={`${title}-form-control-${field.col}`}
+            isRequired={field.required}
+          >
             <FormLabel>{field.col}</FormLabel>
             <Input
               defaultValue={isEdit ? value[field.col.toLowerCase()] : null}
               placeholder={field.col}
               _placeholder={{ color: 'gray.500' }}
               type={field.type}
+              onChange={(e) => {
+                states[field.col][1](e.target.value)
+              }}
             />
           </FormControl>
         ))}
@@ -101,6 +126,29 @@ export default function UserProfileEdit ({ model, title, isEdit }) {
               w="full"
               _hover={{
                 bg: 'green.500'
+              }}
+              onClick={async () => {
+                let body = Object.entries(states).map(([k, v], i) =>
+                  v[0] !== '' ? { [k.toLowerCase()]: v[0] } : null
+                )
+                body = Object.assign({}, ...body)
+                if (body.dateofbirth) {
+                  body.dateOfBirth = body.dateofbirth
+                  delete body.dateofbirth
+                }
+                body = isEdit ? { ...value, ...body } : body
+
+                await createOrUpdateData(
+                  `${prefix}${model}${suffix}`,
+                  body,
+                  toast,
+                  `${model}s`,
+                  isEdit
+                    ? 'Item was successfully updated".'
+                    : 'Item was successfully created".',
+                  isEdit
+                )
+                // window.location.reload()
               }}
             >
               Confirm

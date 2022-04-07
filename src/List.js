@@ -1,5 +1,5 @@
 import { Grid, GridItem, useDisclosure, Text, Center } from '@chakra-ui/react'
-import data from './ListData.json'
+// import clients from './ListData.json'
 import { useState } from 'react'
 import SocialIconsRow from './organisms/List/SocialIconsRow'
 import ExpandedInfo from './organisms/List/ExpandedInfo'
@@ -7,16 +7,16 @@ import StackEditRemoveButtons from './molecules/StackEditRemoveButtons.js'
 import ButtonExpandCollapse from './atoms/ButtonExpandCollapse.js'
 import ClientInfo from './molecules/ClientInfo.js'
 
-export default function List ({ input }) {
+export default function List ({ clients, input }) {
   const collapses = new Map()
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < clients.length; i++) {
     const { isOpen, onToggle } = useDisclosure()
     const [span, setSpan] = useState(1)
     const [text, setText] = useState('Expand Info')
     const [buttonsMargin, setButtonsMargin] = useState(49)
 
-    collapses.set(data[i].id, {
+    collapses.set(clients[i].id, {
       collapse: {
         isOpen,
         onToggle
@@ -36,7 +36,7 @@ export default function List ({ input }) {
     })
   }
 
-  const filteredData = data.filter((el) => {
+  const filteredData = clients.filter((el) => {
     if (input === '') {
       return el
     } else {
@@ -60,7 +60,7 @@ export default function List ({ input }) {
     collapses.get(id).btnMargin.setValue(toggledButtonMargin)
   }
 
-  if (data.length) {
+  if (clients.length) {
     return (
       <Grid templateColumns="repeat(3, 1fr)" gap={6}>
         {filteredData.map((item) => (

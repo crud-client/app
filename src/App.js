@@ -18,7 +18,8 @@ import getList from './api/getList'
 
 export default function App () {
   const toast = useToast()
-  const [, setClients] = useState([])
+
+  const [clients, setClients] = useState([])
   const [inputText, setInputText] = useState('')
   const inputHandler = (e) => {
     const lowerCase = e.target.value.toLowerCase()
@@ -38,12 +39,11 @@ export default function App () {
   useEffect(() => {
     getList('Client', 'clients', toast).then((c) => {
       setClients(c)
-      console.log(c)
     })
   }, [])
 
   return (
-    <Flex justifyContent={'center'}>
+    <Flex justifyContent={'center'} >
       <Stack mt={50} width={'1080px'} padding={'15px'} spacing="25px">
         <HStack w="full" justifyContent="space-between" alignItems="top">
           <Heading>Get Clients</Heading>
@@ -58,7 +58,7 @@ export default function App () {
           />
           <LinkRouteCreate model="client" data={{ client: null }} />
         </HStack>
-        <List input={inputText} />
+        <List clients={clients} input={inputText} />
       </Stack>
     </Flex>
   )
